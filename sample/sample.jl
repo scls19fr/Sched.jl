@@ -28,7 +28,7 @@ function print_some_times()
     enter(sched, Dates.Second(10), 1, print_time_noparam)
     enter(sched, Dates.Second(5), 2, print_time_args, ("positional, argument"))
     enter(sched, Dates.Second(5), 1, print_time_kwargs; Dict(:a=>"keyword")...)
-    Sched.run(sched)
+    run(sched)
     println(_time())
 end
 

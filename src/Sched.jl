@@ -1,6 +1,6 @@
 module Sched
 
-  export Scheduler, enter
+  export Scheduler, enter, enterabs
 
   using DataStructures: PriorityQueue, peek, dequeue!
 
@@ -67,7 +67,7 @@ module Sched
     enterabs(sched, next_time, priority, action, args...; kwargs...)
   end
 
-  function run(sched::Scheduler; blocking=true)
+  function Base.run(sched::Scheduler; blocking=true)
     q = sched._queue
     delayfunc = sched.delayfunc
     timefunc = sched.timefunc
