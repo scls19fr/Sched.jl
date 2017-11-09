@@ -10,3 +10,17 @@
 WIP
 
 A [Julia](https://julialang.org/) event scheduler inspired by [Python sched](https://docs.python.org/3/library/sched.html).
+
+## Install
+
+```julia
+Pkg.clone("https://github.com/scls19fr/Sched.jl")
+```
+
+## Usage
+
+[See example](sample/sample.jl)
+
+## See also
+ - https://discourse.julialang.org/t/julia-cron-like-event-scheduler/6899
+ 
