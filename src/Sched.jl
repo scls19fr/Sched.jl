@@ -35,10 +35,12 @@ module Sched
     delayfunc::Function
 
       _queue::PriorityQueue
+      _lock::ReentrantLock
 
       function Scheduler(; timefunc=_time, delayfunc=sleep)
         q = PriorityQueue{Event, Priority}(Base.Order.Reverse)
-        new(timefunc, delayfunc, q)
+        l = ReentrantLock()
+        new(timefunc, delayfunc, q, l)
       end
   end
 
@@ -59,7 +61,13 @@ module Sched
   function enterabs(sched::Scheduler, time_, priority, action, args...; kwargs...)
     #println("enterabs $sched $time_ $priority $action with args=$args kwargs=$kwargs")
     event = Event(time_, priority, action, args...; kwargs...)
-    sched._queue[event] = Priority(time_, priority)
+    l = sched._lock
+    lock(l)
+    try
+      sched._queue[event] = Priority(time_, priority)
+    finally
+      unlock(sched._lock)
+    end
   end
 
   function enter(sched::Scheduler, delay, priority, action, args...; kwargs...)
@@ -68,10 +76,12 @@ module Sched
   end
 
   function Base.run(sched::Scheduler; blocking=true)
+    l = sched._lock
     q = sched._queue
     delayfunc = sched.delayfunc
     timefunc = sched.timefunc
     while(true)
+      lock(l)
       if length(q) == 0
         break
       end
@@ -83,6 +93,7 @@ module Sched
         delay = false
         event = dequeue!(q)
       end
+      unlock(l)
       if delay
         if !blocking
             return next_event.time_ - now_
