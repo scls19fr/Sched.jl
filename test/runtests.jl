@@ -2,6 +2,10 @@ using Sched
 using Sched: Priority
 using Base.Test
 
+function print_time()
+    println("From print_time $(time())")
+end
+
 @testset "Priority Tests" begin
 
     @testset "Priority Equality" begin
@@ -77,5 +81,24 @@ using Base.Test
         @test delta_t < Dates.Second(11)
 
     end;
+
+
+    @testset "empty" begin
+        s = Scheduler()
+        @test isempty(s)
+        enter(s, Dates.Second(10), 0, print_time)
+        @test !isempty(s)
+    end;
+
+    # @testset "cancel" begin
+    #     s = Scheduler()
+    #     event = enter(s, Dates.Second(10), 0, print_time)
+    #     @test !isempty(s)
+    #     cancel(s, event)
+    #     @test isempty(s)
+    # end;
+
+    # @testset "queue" begin
+    # end;
 
 end;

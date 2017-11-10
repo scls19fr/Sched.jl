@@ -23,7 +23,8 @@ has another way to reference private data (besides global variables).
 
 module Sched
 
-    export Scheduler, enter, enterabs
+    export Scheduler, enter, enterabs, cancel
+    # Base exports: run, isempty
 
     using DataStructures: PriorityQueue, peek, dequeue!
 
@@ -122,6 +123,7 @@ module Sched
         finally
             unlock(sched._lock)
         end
+        event # The ID
     end
 
     """
@@ -131,7 +133,8 @@ module Sched
     """
     function enter(sched::Scheduler, delay, priority, action, args...; kwargs...)
         next_time = sched.timefunc() + delay
-        enterabs(sched, next_time, priority, action, args...; kwargs...)
+        event = enterabs(sched, next_time, priority, action, args...; kwargs...)
+        event
     end
 
     """
@@ -192,13 +195,19 @@ module Sched
     """
     function cancel(sched::Scheduler, event::Event)
         error("NotImplemented")
+        # lock(sched._lock)
+        # delete!(sched._queue, event)
+        # unlock(sched._lock)
     end
 
     """
     Check whether the queue is empty.
     """
-    function empty(sched::Scheduler)
-        error("NotImplemented")
+    function Base.isempty(sched::Scheduler)
+        lock(sched._lock)
+        _isempty = (length(sched._queue) == 0)
+        unlock(sched._lock)
+        _isempty
     end
 
     """
