@@ -205,7 +205,7 @@ module Sched
     """
     function Base.isempty(sched::Scheduler)
         lock(sched._lock)
-        _isempty = (length(sched._queue) == 0)
+        _isempty = isempty(sched._queue)
         unlock(sched._lock)
         _isempty
     end
