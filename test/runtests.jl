@@ -90,13 +90,13 @@ end
         @test !isempty(s)
     end;
 
-    # @testset "cancel" begin
-    #     s = Scheduler()
-    #     event = enter(s, Dates.Second(10), 0, print_time)
-    #     @test !isempty(s)
-    #     cancel(s, event)
-    #     @test isempty(s)
-    # end;
+    @testset "cancel" begin
+        s = Scheduler()
+        event = enter(s, Dates.Second(10), 0, print_time)
+        @test !isempty(s)
+        cancel(s, event)
+        @test isempty(s)
+    end;
 
     # @testset "queue" begin
     # end;

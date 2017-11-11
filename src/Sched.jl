@@ -26,7 +26,7 @@ module Sched
     export Scheduler, enter, enterabs, cancel
     # Base exports: run, isempty
 
-    using DataStructures: PriorityQueue, peek, dequeue!
+    using DataStructures: PriorityQueue, peek, dequeue!, dequeue_pair!
 
     """
     Abstract type for struct that returns real-time or simulated time
@@ -194,10 +194,9 @@ module Sched
     If the event is not in the queue, this raises ValueError.
     """
     function cancel(sched::Scheduler, event::Event)
-        error("NotImplemented")
-        # lock(sched._lock)
-        # delete!(sched._queue, event)
-        # unlock(sched._lock)
+        lock(sched._lock)
+        dequeue_pair!(sched._queue, event)
+        unlock(sched._lock)
     end
 
     """
