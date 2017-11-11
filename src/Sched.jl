@@ -23,7 +23,8 @@ has another way to reference private data (besides global variables).
 
 module Sched
 
-    export Scheduler, enter, enterabs, cancel
+    export Scheduler, enter, enterabs, cancel, queue
+    export FloatTimeFunc, UTCDateTimeFunc
     # Base exports: run, isempty
 
     using DataStructures: PriorityQueue, peek, dequeue!, dequeue_pair!
@@ -35,26 +36,42 @@ module Sched
     abstract type TimeFunc end
 
     """
-    Functor that returns real-time as DateTime (UTC) when called
+    Functor that return real-time as DateTime (UTC) when called
     """
-    struct UTCTimeFunc <: TimeFunc
+    struct UTCDateTimeFuncStruct <: TimeFunc
         func::Function
         args
 
-        UTCTimeFunc() = new(now, [Dates.UTC])
+        UTCDateTimeFuncStruct() = new(now, [Dates.UTC])
     end
-    function (timefunc::UTCTimeFunc)()
+    function (timefunc::UTCDateTimeFuncStruct)()
         timefunc.func(timefunc.args...)
     end
+    UTCDateTimeFunc = UTCDateTimeFuncStruct()
+
+
+    """
+    Functor that return real-time as Float when called
+    """
+    struct FloatTimeFuncStruct <: TimeFunc
+        func::Function
+
+        FloatTimeFuncStruct() = new(time)
+    end
+    function (timefunc::FloatTimeFuncStruct)()
+        timefunc.func()
+    end
+    FloatTimeFunc = FloatTimeFuncStruct()
+
 
     """
     Default time function
     """
     # Time as Float64
-    #_time = time
+    #_time = FloatTimeFunc
 
     # Time as DateTime (UTC)
-    _time = UTCTimeFunc()
+    _time = UTCDateTimeFunc
 
     """
     Event struct
@@ -213,7 +230,9 @@ module Sched
     An ordered list of upcoming events.
     """
     function queue(sched::Scheduler)
-        error("NotImplemented")
+        q = sched._queue
+        q2 = deepcopy(q)
+        [dequeue!(q) for i in 1:length(q)]
     end
 
 end # module

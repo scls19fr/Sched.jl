@@ -2,8 +2,23 @@ using Sched
 using Sched: Priority
 using Base.Test
 
+# Time as Float64
+_time = FloatTimeFunc
+
 function print_time()
     println("From print_time $(time())")
+end
+
+function print_time_noparam()
+    println("From print_time_noparam $(_time())")
+end
+
+function print_time_args(x)
+    println("From print_time_args $(_time()) $x")
+end
+
+function print_time_kwargs(; a="default")
+    println("From print_time_kwargs $(_time()) $a")
 end
 
 @testset "Priority Tests" begin
@@ -44,25 +59,10 @@ end
         s = Scheduler()
 
         # Time as Float64
-        _time = time
+        #_time = FloatTimeFunc
 
         # Time as DateTime
-        using Sched: UTCTimeFunc
-        _time = UTCTimeFunc()
-
-
-        function print_time_noparam()
-            println("From print_time_noparam $(_time())")
-        end
-
-        function print_time_args(x)
-            println("From print_time_args $(_time()) $x")
-        end
-
-        function print_time_kwargs(; a="default")
-            println("From print_time_kwargs $(_time()) $a")
-        end
-
+        _time = UTCDateTimeFunc
 
         function print_some_times()
             t0 = _time()
@@ -82,7 +82,6 @@ end
 
     end;
 
-
     @testset "empty" begin
         s = Scheduler()
         @test isempty(s)
@@ -98,7 +97,29 @@ end
         @test isempty(s)
     end;
 
-    # @testset "queue" begin
-    # end;
+    @testset "queue" begin
+        @testset "ms resolution" begin
+            s = Scheduler()
+            enter(s, Dates.Second(10), 1, print_time_noparam)
+            enter(s, Dates.Second(5), 2, print_time_args, ("positional, argument"))
+            enter(s, Dates.Second(5), 1, print_time_kwargs; Dict(:a=>"keyword")...)
+            a = queue(s)
+            @test length(a) == 3
+            @test a[1].action == print_time_kwargs
+            @test a[2].action == print_time_args
+            @test a[3].action == print_time_noparam
+        end;
 
+        @testset "lower (ns) resolution" begin
+            s = Scheduler(timefunc=FloatTimeFunc)
+            enter(s, 10.0, 1, print_time_noparam)
+            enter(s, 5.0, 2, print_time_args, ("positional, argument"))
+            enter(s, 5.0, 1, print_time_kwargs; Dict(:a=>"keyword")...)
+            a = queue(s)
+            @test length(a) == 3
+            @test a[1].action == print_time_args     # execution order is different!
+            @test a[2].action == print_time_kwargs
+            @test a[3].action == print_time_noparam
+        end;
+    end;
 end;

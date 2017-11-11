@@ -6,9 +6,7 @@ sched = Scheduler()
 _time = time
 
 # Time as DateTime
-using Sched: UTCTimeFunc
-_time = UTCTimeFunc()
-
+_time = UTCDateTimeFunc
 
 function print_time_noparam()
     println("From print_time_noparam $(_time())")
@@ -21,7 +19,6 @@ end
 function print_time_kwargs(; a="default")
     println("From print_time_kwargs $(_time()) $a")
 end
-
 
 function print_some_times()
     println(_time())
