@@ -6,9 +6,6 @@
 
 [![codecov.io](http://codecov.io/github/scls19fr/Sched.jl/coverage.svg?branch=master)](http://codecov.io/github/scls19fr/Sched.jl?branch=master)
 
-
-WIP
-
 A [Julia](https://julialang.org/) event scheduler inspired by [Python sched](https://docs.python.org/3/library/sched.html).
 
 ## Install
