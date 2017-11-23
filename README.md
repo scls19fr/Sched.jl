@@ -6,18 +6,4 @@
 
 [![codecov.io](http://codecov.io/github/scls19fr/Sched.jl/coverage.svg?branch=master)](http://codecov.io/github/scls19fr/Sched.jl?branch=master)
 
-A [Julia](https://julialang.org/) event scheduler inspired by [Python sched](https://docs.python.org/3/library/sched.html).
-
-## Install
-
-```julia
-Pkg.clone("https://github.com/scls19fr/Sched.jl")
-```
-
-## Usage
-
-[See example](sample/sample.jl)
-
-## See also
- - https://discourse.julialang.org/t/julia-cron-like-event-scheduler/6899
- 
+[![](https://img.shields.io/badge/docs-stable-blue.svg)](https://scls19fr.github.io/Sched.jl/stable)

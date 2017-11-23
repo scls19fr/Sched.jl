@@ -20,12 +20,12 @@ arguments are be packed in a sequence) and keyword parameters in "kwargs".
 The action function may be an instance method so it
 has another way to reference private data (besides global variables).
 """
-
 module Sched
 
     export Scheduler, enter, enterabs, cancel, queue
     export FloatTimeFunc, UTCDateTimeFunc
     # Base exports: run, isempty
+    import Base: run, isempty
 
     using DataStructures: PriorityQueue, peek, dequeue!, dequeue_pair!
 
@@ -36,6 +36,8 @@ module Sched
     abstract type TimeFunc end
 
     """
+        UTCDateTimeFuncStruct()
+
     Functor that return real-time as DateTime (UTC) when called
     """
     struct UTCDateTimeFuncStruct <: TimeFunc
@@ -51,6 +53,8 @@ module Sched
 
 
     """
+        FloatTimeFuncStruct()
+
     Functor that return real-time as Float when called
     """
     struct FloatTimeFuncStruct <: TimeFunc
@@ -74,22 +78,41 @@ module Sched
     _time = UTCDateTimeFunc
 
     """
-    Event struct
+        Event(time_, priority, action, args...; kwargs...)
+
+    Event structure
+
+     - `time_`: Numeric type compatible with the return value of the timefunc function passed to the constructor.'
+     - `priority`: Events scheduled for the same time will be executed in the order of their priority.
+     - `action`: Executing the event means executing action(args...; kwargs...)
+     - `args`: args is a sequence holding the positional arguments for the action.
+     - `kwargs`: kwargs is a dictionary holding the keyword arguments for the action.
+
     """
     struct Event
-        time_    # Numeric type compatible with the return value of the timefunc function passed to the constructor.'
-        priority # Events scheduled for the same time will be executed in the order of their priority.
-        action   # Executing the event means executing action(args...; kwargs...)
-        args     # args is a sequence holding the positional arguments for the action.
-        kwargs   # kwargs is a dictionary holding the keyword arguments for the action.
+        time_ 
+        priority
+        action
+        args
+        kwargs
 
-        """
-        Initialize an event struct
-        """
         Event(time_, priority, action, args...; kwargs...) = new(time_, priority, action, args, kwargs)
     end
     run(event::Event) = event.action(event.args...; event.kwargs...)
 
+    """
+        Scheduler(; timefunc=_time, delayfunc=sleep)
+
+    Initialize a new Scheduler instance, passing optionaly
+    the time and delay functions
+
+    The scheduler struct defines a generic interface to scheduling events. 
+    It needs two functions to actually deal with the “outside world”
+
+    - The `timefunc` should be callable without arguments, and return a number (the “time”, in any units whatsoever). `timefunc` default is `UTCDateTimeFunc`.
+
+    - The `delayfunc` function should be callable with one argument, compatible  with the output of `timefunc`, and should delay that many time units. delayfunc  will also be called with the argument 0 after each event is run to allow other threads an opportunity to run in multi-threaded applications.
+    """
     struct Scheduler
         timefunc::TimeFunc
         delayfunc::Function
@@ -97,10 +120,6 @@ module Sched
             _queue::PriorityQueue
             _lock::ReentrantLock
 
-            """
-            Initialize a new Scheduler instance, passing optionaly
-            the time and delay functions
-            """
             function Scheduler(; timefunc=_time, delayfunc=sleep)
                 q = PriorityQueue{Event, Priority}(Base.Order.Reverse)
                 l = ReentrantLock()
@@ -109,6 +128,8 @@ module Sched
     end
 
     """
+        Priority(time_, priority)
+
     Priority of events
     """
     struct Priority
@@ -126,6 +147,8 @@ module Sched
     end
 
     """
+        enterabs(sched, time_, priority, action, args...; kwargs...)
+
     Enter a new event in the queue at an absolute time.
     Returns an ID for the event which can be used to remove it,
     if necessary.
@@ -144,6 +167,8 @@ module Sched
     end
 
     """
+        enter(sched, delay, priority, action, args...; kwargs...)
+
     Enter a new event in the queue at a relative time.
     A variant of enterabs that specifies the time as a relative time.
     This is actually the more commonly used interface.
@@ -155,6 +180,8 @@ module Sched
     end
 
     """
+        run(sched; blocking=true)
+
     Execute events until the queue is empty.
     If blocking is False executes the scheduled events due to
     expire soonest (if any) and then return the deadline of the
@@ -174,7 +201,7 @@ module Sched
     avoid monopolizing the CPU when other threads are also
     runnable.
     """
-    function Base.run(sched::Scheduler; blocking=true)
+    function run(sched::Scheduler; blocking=true)
         l = sched._lock
         q = sched._queue
         delayfunc = sched.delayfunc
@@ -206,6 +233,8 @@ module Sched
     end
 
     """
+        cancel(sched, event)
+
     Remove an event from the queue.
     This must be presented the ID as returned by enter().
     If the event is not in the queue, this raises ValueError.
@@ -217,9 +246,11 @@ module Sched
     end
 
     """
+        isempty(sched) -> Bool
+
     Check whether the queue is empty.
     """
-    function Base.isempty(sched::Scheduler)
+    function isempty(sched::Scheduler)
         lock(sched._lock)
         _isempty = isempty(sched._queue)
         unlock(sched._lock)
@@ -227,7 +258,9 @@ module Sched
     end
 
     """
-    An ordered list of upcoming events.
+        queue(sched)
+
+    Return an ordered list of upcoming events.
     """
     function queue(sched::Scheduler)
         q = sched._queue
