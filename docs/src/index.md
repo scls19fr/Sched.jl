@@ -18,7 +18,7 @@ Pkg.clone("https://github.com/scls19fr/Sched.jl")
 
 ## Usage
 
-[See example](../../sample/sample.jl)
+[See example](https://github.com/scls19fr/sample/sample.jl)
 
 ## Contents
 
