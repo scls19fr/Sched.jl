@@ -1,9 +1,20 @@
 # Sched
 
-[![](https://img.shields.io/badge/docs-stable-blue.svg)](https://scls19fr.github.io/Sched.jl/stable)
+| **Documentation**                                                               | **PackageEvaluator**                                                                            | **Build Status**                                                                                |
+|:-------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------:|
+| [![][docs-stable-img]][docs-stable-url] [![][docs-latest-img]][docs-latest-url] | [![][pkg-0.6-img]][pkg-0.6-url] | [![][travis-img]][travis-url] [![][codecov-img]][codecov-url] |
 
-[![Build Status](https://travis-ci.org/scls19fr/Sched.jl.svg?branch=master)](https://travis-ci.org/scls19fr/Sched.jl)
+[docs-latest-img]: https://img.shields.io/badge/docs-latest-blue.svg
+[docs-latest-url]: https://scls19fr.github.io/Sched.jl/latest
 
-[![Coverage Status](https://coveralls.io/repos/scls19fr/Sched.jl/badge.svg?branch=master&service=github)](https://coveralls.io/github/scls19fr/Sched.jl?branch=master)
+[docs-stable-img]: https://img.shields.io/badge/docs-stable-blue.svg
+[docs-stable-url]: https://scls19fr.github.io/Sched.jl/stable
 
-[![codecov.io](http://codecov.io/github/scls19fr/Sched.jl/coverage.svg?branch=master)](http://codecov.io/github/scls19fr/Sched.jl?branch=master)
+[travis-img]: https://travis-ci.org/scls19fr/Sched.jl.svg?branch=master
+[travis-url]: https://travis-ci.org/scls19fr/Sched.jl
+
+[codecov-img]: http://codecov.io/github/scls19fr/Sched.jl/coverage.svg
+[codecov-url]: http://codecov.io/github/scls19fr/Sched.jl
+
+[pkg-0.6-img]: http://pkg.julialang.org/badges/Sched_0.6.svg
+[pkg-0.6-url]: http://pkg.julialang.org/?pkg=Sched&ver=0.6
