@@ -18,7 +18,14 @@ Pkg.clone("https://github.com/scls19fr/Sched.jl")
 
 ## Usage
 
-[See example](sample/sample.jl)
+````@eval
+Markdown.parse("""
+```
+$(readstring("sample/sample.jl"))
+```
+""")
+````
+[Download example](sample/sample.jl)
 
 ## Contents
 
