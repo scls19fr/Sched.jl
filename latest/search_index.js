@@ -37,7 +37,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Sched.jl",
     "title": "Usage",
     "category": "section",
-    "text": "Markdown.parse(\"\"\"\n```\n$(readstring(\"sample/sample.jl\"))\n```\n\"\"\")Download example"
+    "text": "Markdown.parse(\"\"\"\n```julia\n$(readstring(\"sample/sample.jl\"))\n```\n\"\"\")Download example"
 },
 
 {
