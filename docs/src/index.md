@@ -20,7 +20,7 @@ Pkg.clone("https://github.com/scls19fr/Sched.jl")
 
 ````@eval
 Markdown.parse("""
-```
+```julia
 $(readstring("sample/sample.jl"))
 ```
 """)
