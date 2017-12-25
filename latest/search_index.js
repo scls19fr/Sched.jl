@@ -165,7 +165,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Sched.jl",
     "title": "See also",
     "category": "section",
-    "text": "https://discourse.julialang.org/t/julia-cron-like-event-scheduler/6899"
+    "text": "https://github.com/scls19fr/ExtensibleScheduler.jl a more advanced and extensible Julia events scheduler\nhttps://discourse.julialang.org/t/julia-cron-like-event-scheduler/6899"
 },
 
 ]}
