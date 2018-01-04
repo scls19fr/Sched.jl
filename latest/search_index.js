@@ -29,7 +29,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Sched.jl",
     "title": "Install",
     "category": "section",
-    "text": "Pkg.clone(\"https://github.com/scls19fr/Sched.jl\")"
+    "text": "Sched is a registered package. To add it to your Julia packages, simply do the following in REPL:Pkg.add(\"Sched\")"
 },
 
 {
