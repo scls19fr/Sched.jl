@@ -12,8 +12,11 @@ Sched
 
 ## Install
 
+`Sched` is a registered package.
+To add it to your Julia packages, simply do the following in REPL:
+
 ```julia
-Pkg.clone("https://github.com/scls19fr/Sched.jl")
+Pkg.add("Sched")
 ```
 
 ## Usage
