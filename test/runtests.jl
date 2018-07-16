@@ -1,6 +1,6 @@
 using Sched
 using Sched: Priority
-using Base.Test
+using Test
 
 # Time as Float64
 _time = FloatTimeFunc
