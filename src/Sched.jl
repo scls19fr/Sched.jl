@@ -28,6 +28,7 @@ module Sched
     import Base: run, isempty
 
     using DataStructures: PriorityQueue, peek, dequeue!, dequeue_pair!
+    using Dates
 
     """
     Abstract type for struct that returns real-time or simulated time
@@ -71,11 +72,13 @@ module Sched
     """
     Default time function
     """
+    global _time = UTCDateTimeFunc
+
     # Time as Float64
     #_time = FloatTimeFunc
 
     # Time as DateTime (UTC)
-    _time = UTCDateTimeFunc
+    #_time = UTCDateTimeFunc
 
     """
         Event(time_, priority, action, args...; kwargs...)

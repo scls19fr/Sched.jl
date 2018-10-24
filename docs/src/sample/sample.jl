@@ -3,10 +3,10 @@ using Sched
 sched = Scheduler()
 
 # Time as Float64
-_time = time
+# global _time = time
 
 # Time as DateTime
-_time = UTCDateTimeFunc
+global _time = UTCDateTimeFunc
 
 function print_time_noparam()
     println("From print_time_noparam $(_time())")
