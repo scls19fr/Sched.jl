@@ -72,11 +72,13 @@ module Sched
     """
     Default time function
     """
+    global _time = UTCDateTimeFunc
+
     # Time as Float64
     #_time = FloatTimeFunc
 
     # Time as DateTime (UTC)
-    _time = UTCDateTimeFunc
+    #_time = UTCDateTimeFunc
 
     """
         Event(time_, priority, action, args...; kwargs...)
