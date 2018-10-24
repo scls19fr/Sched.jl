@@ -28,6 +28,7 @@ module Sched
     import Base: run, isempty
 
     using DataStructures: PriorityQueue, peek, dequeue!, dequeue_pair!
+    using Dates
 
     """
     Abstract type for struct that returns real-time or simulated time
