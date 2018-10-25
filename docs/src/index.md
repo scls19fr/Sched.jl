@@ -90,5 +90,5 @@ FloatTimeFuncStruct
 ```
 
 ## See also
- - [https://github.com/scls19fr/ExtensibleScheduler.jl](https://scls19fr.github.io/ExtensibleScheduler.jl/latest/) a more advanced and extensible [Julia](http://www.julialang.org) events scheduler
+ - [https://scls19fr.github.io/ExtensibleScheduler.jl/latest/](ExtensibleScheduler.jl) a more advanced and extensible [Julia](http://www.julialang.org) events scheduler
  - [https://discourse.julialang.org/t/julia-cron-like-event-scheduler/6899](https://discourse.julialang.org/t/julia-cron-like-event-scheduler/6899)
