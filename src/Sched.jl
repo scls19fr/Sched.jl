@@ -225,7 +225,7 @@ module Sched
             unlock(l)
             if delay
                 if !blocking
-                        return next_event.time_ - now_
+                    return next_event.time_ - now_
                 end
                 delayfunc(next_event.time_ - now_)
             else
