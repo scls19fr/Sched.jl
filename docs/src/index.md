@@ -22,9 +22,10 @@ Pkg.add("Sched")
 ## Usage
 
 ````@eval
+using Markdown
 Markdown.parse("""
 ```julia
-$(readstring("sample/sample.jl"))
+$(read("sample/sample.jl", String))
 ```
 """)
 ````
